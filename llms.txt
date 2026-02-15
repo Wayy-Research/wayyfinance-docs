@@ -1,0 +1,36 @@
+# wayyFinance Documentation
+> https://github.com/Wayy-Research/wayyfinance-docs
+> 6 open-source libraries for quantitative finance
+
+## Overview
+- [Ecosystem](overview/ecosystem.md): All 6 libraries, decision tree
+- [Architecture](overview/architecture.md): Data flow, shared conventions
+- [Getting Started](overview/getting-started.md): Zero to first workflow
+- [Installation](overview/installation.md): Per-package install guide
+
+## Package References
+- [wrdata](packages/wrdata/reference.md): Data from 32+ providers (v0.1.6)
+- [fractime](packages/fractime/reference.md): Fractal forecasting & regimes (v0.7.0)
+- [wrtrade](packages/wrtrade/reference.md): Backtesting & trading (v2.1.1)
+- [wrchart](packages/wrchart/reference.md): Python charting (v0.2.0)
+- [wrchart-js](packages/wrchart-js/reference.md): React charting (v0.2.0)
+- [wayy-db](packages/wayydb/reference.md): Time-series database (v0.1.0)
+
+## Cookbooks
+- [01 Data to Forecast](cookbooks/01-data-to-forecast.py): wrdata + fractime + wrchart
+- [02 Backtest Strategy](cookbooks/02-backtest-strategy.py): wrdata + wrtrade
+- [03 Regime-Aware Trading](cookbooks/03-regime-aware-trading.py): fractime regimes + wrtrade
+- [04 Realtime Streaming](cookbooks/04-realtime-streaming.py): wrdata WebSocket streaming
+- [05 Whale Detection](cookbooks/05-whale-detection.py): Binance whale tracking
+- [06 Options Analysis](cookbooks/06-options-analysis.py): wrdata options + fractime vol
+- [07 TimeSeries DB](cookbooks/07-timeseries-db.py): wrdata + wayyDB as-of joins
+- [08 Multi-Asset Screener](cookbooks/08-multi-asset-screener.py): Hurst screening
+
+## Guides
+- [For LLMs](guides/for-llms.md): How to use this repo as LLM context
+- [Quant Pitfalls](guides/quant-pitfalls.md): Lookahead bias, floats, timezones
+- [API Keys](guides/api-keys.md): Provider keys, .env template
+- [Data Providers](guides/data-providers.md): 32+ providers with rate limits
+
+## Full Reference
+- [llms-full.txt](llms-full.txt): All references concatenated (auto-generated)

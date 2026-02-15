@@ -1,0 +1,41 @@
+{
+  "updated": "2026-02-15",
+  "packages": {
+    "wrdata": {
+      "version": "0.1.6",
+      "python": ">=3.10",
+      "pypi": "wrdata",
+      "repo": "https://github.com/Wayy-Research/wrdata"
+    },
+    "fractime": {
+      "version": "0.7.0",
+      "python": ">=3.10",
+      "pypi": "fractime",
+      "repo": "https://github.com/Wayy-Research/fracTime"
+    },
+    "wrtrade": {
+      "version": "2.1.1",
+      "python": ">=3.8",
+      "pypi": "wrtrade",
+      "repo": "https://github.com/Wayy-Research/wrtrade"
+    },
+    "wrchart": {
+      "version": "0.2.0",
+      "python": ">=3.9",
+      "pypi": "wrchart",
+      "repo": "https://github.com/Wayy-Research/wrchart"
+    },
+    "wrchart-js": {
+      "version": "0.2.0",
+      "runtime": "node>=18",
+      "npm": "@wayy/wrchart",
+      "repo": "https://github.com/Wayy-Research/wrchart-js"
+    },
+    "wayy-db": {
+      "version": "0.1.0",
+      "python": ">=3.10",
+      "pypi": "wayy-db",
+      "repo": "https://github.com/Wayy-Research/wayyDB"
+    }
+  }
+}

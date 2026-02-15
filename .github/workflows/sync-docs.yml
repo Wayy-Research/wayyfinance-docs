@@ -1,0 +1,94 @@
+# Sync documentation from source repos
+# Runs weekly on Monday 6am UTC + manual trigger
+
+name: Sync Docs
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout wayyfinance-docs
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Clone source repos
+        run: |
+          mkdir -p /tmp/source-repos
+          repos="wrdata fracTime wrtrade wrchart wrchart-js wayyDB"
+          for repo in $repos; do
+            echo "Cloning $repo..."
+            git clone --depth 1 "https://github.com/Wayy-Research/${repo}.git" "/tmp/source-repos/${repo}" || {
+              echo "WARNING: Failed to clone $repo, skipping"
+              continue
+            }
+          done
+
+      - name: Sync README and examples
+        run: |
+          declare -A repo_to_pkg=(
+            ["wrdata"]="wrdata"
+            ["fracTime"]="fractime"
+            ["wrtrade"]="wrtrade"
+            ["wrchart"]="wrchart"
+            ["wrchart-js"]="wrchart-js"
+            ["wayyDB"]="wayydb"
+          )
+
+          for repo in wrdata fracTime wrtrade wrchart wrchart-js wayyDB; do
+            pkg="${repo_to_pkg[$repo]}"
+            src="/tmp/source-repos/${repo}"
+
+            if [ ! -d "$src" ]; then
+              echo "SKIP: $repo was not cloned"
+              continue
+            fi
+
+            mkdir -p "packages/${pkg}"
+
+            # Copy README.md
+            if [ -f "${src}/README.md" ]; then
+              cp "${src}/README.md" "packages/${pkg}/README.md"
+              echo "Copied README.md -> packages/${pkg}/README.md"
+            fi
+
+            # Copy examples/ directory if it exists
+            if [ -d "${src}/examples" ]; then
+              mkdir -p "packages/${pkg}/examples"
+              cp -r "${src}/examples/"* "packages/${pkg}/examples/" 2>/dev/null || true
+              echo "Copied examples/ -> packages/${pkg}/examples/"
+            fi
+          done
+
+      - name: Extract versions
+        run: python scripts/extract-versions.py /tmp/source-repos
+
+      - name: Build llms-full.txt
+        run: bash scripts/build-llms-full.sh
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes detected, skipping commit"
+          else
+            git commit -m "docs: auto-sync from source repos"
+            git push
+            echo "Changes committed and pushed"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

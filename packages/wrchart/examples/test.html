@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Chart Test</title>
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; padding: 20px; }
+        #chart { width: 800px; height: 400px; background: #111; }
+        #status { margin-bottom: 20px; padding: 10px; background: #222; }
+    </style>
+</head>
+<body>
+    <div id="status">Loading...</div>
+    <div id="chart"></div>
+
+    <script src="https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
+    <script>
+        const status = document.getElementById('status');
+
+        // Check if library loaded
+        if (typeof LightweightCharts === 'undefined') {
+            status.textContent = 'ERROR: LightweightCharts library failed to load!';
+            status.style.color = 'red';
+        } else {
+            status.textContent = 'Library loaded. Creating chart...';
+
+            try {
+                // Create chart
+                const chart = LightweightCharts.createChart(document.getElementById('chart'), {
+                    width: 800,
+                    height: 400,
+                    layout: {
+                        background: { type: 'solid', color: '#111111' },
+                        textColor: '#888888',
+                    },
+                    grid: {
+                        vertLines: { color: '#222222' },
+                        horzLines: { color: '#222222' },
+                    },
+                });
+
+                // Add candlestick series
+                const candlestickSeries = chart.addCandlestickSeries({
+                    upColor: '#FFFFFF',
+                    downColor: '#E53935',
+                    borderUpColor: '#FFFFFF',
+                    borderDownColor: '#E53935',
+                    wickUpColor: '#FFFFFF',
+                    wickDownColor: '#E53935',
+                });
+
+                // Generate simple test data
+                const data = [];
+                let price = 100;
+                for (let i = 0; i < 50; i++) {
+                    const open = price;
+                    const close = price + (Math.random() - 0.5) * 4;
+                    const high = Math.max(open, close) + Math.random() * 2;
+                    const low = Math.min(open, close) - Math.random() * 2;
+                    data.push({ time: i, open, high, low, close });
+                    price = close;
+                }
+
+                candlestickSeries.setData(data);
+                chart.timeScale().fitContent();
+
+                status.textContent = 'SUCCESS: Chart created with ' + data.length + ' candles!';
+                status.style.color = '#4CAF50';
+            } catch (e) {
+                status.textContent = 'ERROR: ' + e.message;
+                status.style.color = 'red';
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+</html>
