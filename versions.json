@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-15",
+  "updated": "2026-02-16",
   "packages": {
     "wrdata": {
       "version": "0.1.6",
@@ -26,7 +26,7 @@
       "repo": "https://github.com/Wayy-Research/wrchart"
     },
     "wrchart-js": {
-      "version": "0.2.0",
+      "version": "0.1.0",
       "runtime": "node>=18",
       "npm": "@wayy/wrchart",
       "repo": "https://github.com/Wayy-Research/wrchart-js"
